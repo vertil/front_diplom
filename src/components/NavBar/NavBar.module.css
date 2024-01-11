@@ -1,0 +1,29 @@
+.navBar {
+  position: relative;
+  width: 100%;
+  max-width: 15rem;
+  background-color: #152e51;
+  transition: 0.1s all;
+  overflow: hidden;
+}
+
+.navBar_container {
+  position: sticky;
+  top: 0rem;
+  padding: 1rem;
+  transform: translateY(3rem);
+}
+
+.navBar_links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.navBar_links > * {
+  margin-bottom: 1rem;
+}
+
+.navBar_close {
+  max-width: 4rem;
+}

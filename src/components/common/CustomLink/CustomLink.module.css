@@ -1,0 +1,30 @@
+.customLink {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding-bottom: 0.5rem;
+  box-shadow: 0px 10px 8px 0px rgba(34, 60, 80, 0.5);
+  -webkit-box-shadow: 0px 10px 8px 0px rgba(34, 60, 80, 0.2);
+  -moz-box-shadow: 0px 10px 8px 0px rgba(34, 60, 80, 0.2);
+  text-decoration: none;
+}
+
+.customLink_text {
+  width: 0;
+  color: #caf7ff;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.customLink_text_active {
+  width: 100%;
+}
+
+.customLink:hover {
+  opacity: 0.8;
+}
+
+.customLink:active {
+  opacity: 0.5;
+}

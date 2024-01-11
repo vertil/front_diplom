@@ -1,0 +1,17 @@
+.button {
+  width: auto;
+  padding: 0.5rem 1rem;
+  background-color: #00dfc5;
+  border: none;
+  border-radius: 0.5rem;
+  color: #0f284c;
+  cursor: pointer;
+}
+
+.button:hover {
+  opacity: 0.8;
+}
+
+.button:active {
+  opacity: 0.5;
+}

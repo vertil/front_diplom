@@ -1,0 +1,13 @@
+.search {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.search > div {
+  margin-right: 1rem;
+}
+
+p {
+  color: #caf7ff;
+}
