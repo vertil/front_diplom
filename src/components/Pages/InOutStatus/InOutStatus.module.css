@@ -8,6 +8,15 @@
   margin-right: 1rem;
 }
 
-p {
-  color: #caf7ff;
+p{
+  color: #000000;
+  font-size: 1.3rem;
+  font-weight: bold;
+}
+
+pre{
+  color: #000000;
+  font-size: 1.1rem;
+  font-weight: bold;
+
 }

@@ -5,40 +5,41 @@ import TitleOfPages from '../../common/TitleOfPages/TitleOfPages';
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import Table from '../../common/Table/Table';
+ 
 
 const Filter = () => {
-  const workerDayVisitsColumn = ['Datetime', 'Cabinet number', 'Direction'];
-  const workerDayVisitsColumn2 = ['Cabinet id', 'Total time'];
-  const workerDayVisitsColumn3 = ['Time', 'Total'];
+  const workerDayVisitsColumn = ['Время', 'Помещение', 'Направление'];
+  const workerDayVisitsColumn2 = ['Номер кабинета', 'проведённое время за день'];
+  const workerDayVisitsColumn3 = ['Тип времени', 'время'];
   const [workerDayVisits, setWorkerDayVisits] = useState<any>([]);
   const [workerDayVisitsDate, setWorkerDayVisitsDate] = useState('');
   const [workerDayVisitsNumber, setWorkerDayVisitsNumber] = useState('');
 
-  const workerDayVisitsPosColumn = ['Datetime', 'Cabinet id'];
+  const workerDayVisitsPosColumn = ['Время', 'Помещение'];
   const [workerDayVisitsPos, setWorkerDayVisitsPos] = useState([]);
   const [workerDayVisitsPosDate, setWorkerDayVisitsPosDate] = useState('');
   const [workerDayVisitsPosNumber, setWorkerDayVisitsPosNumber] = useState('');
   const [workerDayVisitsPosBool, setWorkerDayVisitsPosBool] = useState('');
 
-  const cabVisitsColumn = ['Datetime', 'Name', 'direction'];
-  const cabVisitsColumn2 = ['Name', 'Time'];
+  const cabVisitsColumn = ['Время', 'ФИО', 'Направление'];
+  const cabVisitsColumn2 = ['ФИО', 'общее время'];
   const [cabVisits, setCabVisits] = useState<any>([]);
   const [cabVisitsDate, setCabVisitsDate] = useState('');
   const [cabVisitsNumber, setCabVisitsNumber] = useState('');
 
-  const cabVisitsPosColumn = ['Datetime', 'Personal id'];
+  const cabVisitsPosColumn = ['Время', 'ФИО'];
   const [cabVisitsPos, setCabVisitsPos] = useState([]);
   const [cabVisitsPosDate, setCabVisitsPosDate] = useState('');
   const [cabVisitsPosNumber, setCabVisitsPosNumber] = useState('');
   const [cabVisitsPosBool, setCabVisitsPosBool] = useState('');
 
-  const passVisitsColumn = ['Datetime', 'Personal id', 'direction'];
+  const passVisitsColumn = ['Время', 'ФИО', 'Направление'];
   const [passVisits, setPassVisits] = useState([]);
   const [passVisitsDate, setPassVisitsDate] = useState('');
   const [passVisitsNumber, setPassVisitsNumber] = useState('');
   const [passVisitsPass, setPassVisitsPass] = useState('');
 
-  const passVisitsPosColumn = ['Datetime', 'Personal id'];
+  const passVisitsPosColumn = ['Время', 'ФИО'];
   const [passVisitsPos, setPassVisitsPos] = useState([]);
   const [passVisitsPosDate, setPassVisitsPosDate] = useState('');
   const [passVisitsPosNumber, setPassVisitsPosNumber] = useState('');
@@ -181,9 +182,14 @@ const Filter = () => {
     <>
       <TitleOfPages title='Filter' />
 
+      <p>Отчёты по работникам</p>
+      <br></br>
+
+      <pre>Отчёт по посещениям работником кабинетов</pre>
+         
       <div className={styles.search}>
         <Input
-          label='Enter date'
+          label='Выберите дату'
           type='date'
           placeholder='Enter date'
           value={workerDayVisitsDate}
@@ -191,8 +197,7 @@ const Filter = () => {
             setWorkerDayVisitsDate(e.target.value)
           }
         />
-
-        <Input
+<Input
           label='Enter person id'
           type='number'
           placeholder='Enter person id'
@@ -201,13 +206,37 @@ const Filter = () => {
             setWorkerDayVisitsNumber(e.target.value)
           }
         />
+        {/* <label>
+            Выберите работника
+            <br></br>
+            <input list="browsers" name="myBrowser"  size={50}/>  
+        </label>   
+        <datalist id="browsers">
+            <option value="Вертинский Кирилл Геннадьевич" />
+            <option value="Иванов Иван Иваныч" />
+            <option value="Петров Пётр Петрович" />            
+          
+        </datalist>
+        
+        <br></br> */}
 
-        <Button text='Get worker day visits' onClick={GetWorkerDayVisits} />
+
+        <Button text='Получить отчёт' onClick={GetWorkerDayVisits} />
+
+        
       </div>
 
+      
+        <br></br><br></br><br></br><br></br><br></br>
+
+      
+      <br></br>
+      <pre>Отчёт по посещениям работником кабинетов в зависимости от направления</pre>
+
+      
       <div className={styles.search}>
         <Input
-          label='Enter date'
+          label='Выберите дату'
           type='date'
           placeholder='Enter date'
           value={workerDayVisitsPosDate}
@@ -215,6 +244,19 @@ const Filter = () => {
             setWorkerDayVisitsPosDate(e.target.value)
           }
         />
+
+        {/* <label>
+            Выберите работника
+            <br></br>
+            <input list="browsers" name="myBrowser"  size={50}/>  
+        </label>   
+        <datalist id="browsers">
+            <option value="Вертинский Кирилл Геннадьевич" />
+            <option value="Иванов Иван Иваныч" />
+            <option value="Петров Пётр Петрович" />            
+          
+        </datalist>       
+        <br></br> */}
 
         <Input
           label='Enter person id'
@@ -233,19 +275,27 @@ const Filter = () => {
           }
         >
           <option value=''>Выберите значение</option>
-          <option value='true'>True</option>
-          <option value='false'>False</option>
+          <option value='true'>В помещение</option>
+          <option value='false'>Из помещения</option>
         </select>
+        
+        <br></br>
 
         <Button
-          text='Get worker day visits pos'
+          text='Получить отчёт'
           onClick={GetWorkerDayVisitsPos}
         />
       </div>
+      <br></br>
+      <hr></hr>      
+      <p>Отчёты по кабинетам</p>
+      <br></br>
+      <pre>Отчёт по посещениям кабинета</pre>
+
 
       <div className={styles.search}>
         <Input
-          label='Enter date'
+          label='Выберите дату'
           type='date'
           placeholder='Enter date'
           value={cabVisitsDate}
@@ -255,21 +305,28 @@ const Filter = () => {
         />
 
         <Input
-          label='Enter cab id'
+          label='Введите номер кабинета'
           type='number'
-          placeholder='Enter cab id'
+          placeholder='Введите номер кабинета'
           value={cabVisitsNumber}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setCabVisitsNumber(e.target.value)
           }
         />
 
-        <Button text='Get cab visits' onClick={GetCabVisits} />
+
+
+        <Button text='Получить отчёт' onClick={GetCabVisits} />
       </div>
+
+      <br></br>
+     
+      <pre>Отчёт по посещению кабинета в зависимости от направления движения</pre>
+
 
       <div className={styles.search}>
         <Input
-          label='Enter date'
+          label='Выберите дату'
           type='date'
           placeholder='Enter date'
           value={cabVisitsPosDate}
@@ -279,14 +336,16 @@ const Filter = () => {
         />
 
         <Input
-          label='Enter cab id'
+          label='Введите номер кабинета'
           type='number'
-          placeholder='Enter cab id'
+          placeholder='Введите номер кабинета'
           value={cabVisitsPosNumber}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setCabVisitsPosNumber(e.target.value)
           }
         />
+
+
 
         <select
           value={cabVisitsPosBool}
@@ -295,16 +354,22 @@ const Filter = () => {
           }
         >
           <option value=''>Выберите значение</option>
-          <option value='true'>True</option>
-          <option value='false'>False</option>
+          <option value='true'>В помещение</option>
+          <option value='false'>Из помещения</option>
         </select>
-
-        <Button text='Get cab visits pos' onClick={GetCabVisitsPos} />
+        <br></br>
+        <Button text='Получить отчёт' onClick={GetCabVisitsPos} />
       </div>
+
+      <br></br>
+      <hr></hr>      
+      <p>Отчёты по проходам</p>
+      <br></br>
+      <pre>Отчёт по прохождению через проход кабинета</pre>
 
       <div className={styles.search}>
         <Input
-          label='Enter date'
+          label='Выберите дату'
           type='date'
           placeholder='Enter date'
           value={passVisitsDate}
@@ -314,9 +379,9 @@ const Filter = () => {
         />
 
         <Input
-          label='Enter cab id'
+          label='Введите номер кабинета'
           type='number'
-          placeholder='Enter cab id'
+          placeholder='Введите номер кабинета'
           value={passVisitsNumber}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPassVisitsNumber(e.target.value)
@@ -324,21 +389,26 @@ const Filter = () => {
         />
 
         <Input
-          label='Enter pass'
+          label='Введите номер прохода'
           type='number'
-          placeholder='Enter pass'
+          placeholder='Введите номер проходаы'
           value={passVisitsPass}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPassVisitsPass(e.target.value)
           }
         />
 
-        <Button text='Get pass visits' onClick={GetPassVisits} />
+
+
+        <Button text='Получить отчёт' onClick={GetPassVisits} />
       </div>
+      
+      <br></br>
+      <pre>Отчёт по прохождению через проход кабинета в зависимости от направления</pre>
 
       <div className={styles.search}>
         <Input
-          label='Enter date'
+          label='Выберите дату'
           type='date'
           placeholder='Enter date'
           value={passVisitsPosDate}
@@ -348,9 +418,9 @@ const Filter = () => {
         />
 
         <Input
-          label='Enter cab id'
+          label='Введите номер кабинета'
           type='number'
-          placeholder='Enter cab id'
+          placeholder='Введите номер кабинета'
           value={passVisitsPosNumber}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPassVisitsPosNumber(e.target.value)
@@ -358,15 +428,16 @@ const Filter = () => {
         />
 
         <Input
-          label='Enter pass'
+          label='Введите номер прохода'
           type='number'
-          placeholder='Enter pass'
+          placeholder='Введите номер прохода'
           value={passVisitsPosPass}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPassVisitsPosPass(e.target.value)
           }
         />
 
+      
         <select
           value={passVisitsPosBool}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
@@ -374,22 +445,30 @@ const Filter = () => {
           }
         >
           <option value=''>Выберите значение</option>
-          <option value='true'>True</option>
-          <option value='false'>False</option>
+          <option value='true'>В помещение</option>
+          <option value='false'>Из помещения</option>
         </select>
-
-        <Button text='Get pass visits pos' onClick={GetPassVisitsPos} />
+        <br></br>
+        <Button text='Получить отчёт' onClick={GetPassVisitsPos} />
       </div>
+      
+      <br></br>
+      <br></br>
+      <br></br>
 
       {workerDayVisits.full && (
         <>
+         
+
           <Table theadName={workerDayVisitsColumn2}>
             {workerDayVisits.short.map((item: any, index: any) => {
               const [number, value] = Object.entries<any>(item)[0];
               return (
-                <tr key={index}>
-                  <td>{number}</td>
-                  <td>{formatDuration(value)}</td>
+                <tr key={index} >
+                  
+                  <td >{number}</td>
+                    
+                  <td>{formatDuration(value)}</td>                          
                 </tr>
               );
             })}
@@ -500,7 +579,7 @@ const Filter = () => {
 
       {cabVisitsPos.length > 0 && (
         <Table theadName={cabVisitsPosColumn}>
-          {cabVisitsPos.map((item: any, index: number) => {
+          {cabVisitsPos.map((item: any, index: any) => {
             return (
               <tr key={index}>
                 <td>
@@ -509,7 +588,7 @@ const Filter = () => {
                     .replace(/[T]/g, ' ')
                     .replace(/"/g, '')}
                 </td>
-                <td>{item.per_id}</td>
+                <td>{item.name}</td>
               </tr>
             );
           })}
@@ -518,7 +597,7 @@ const Filter = () => {
 
       {passVisits.length > 0 && (
         <Table theadName={passVisitsColumn}>
-          {passVisits.map((item: any, index: number) => {
+          {passVisits.map((item: any, index: any) => {
             return (
               <tr key={index}>
                 <td>
@@ -527,7 +606,7 @@ const Filter = () => {
                     .replace(/[T]/g, ' ')
                     .replace(/"/g, '')}
                 </td>
-                <td>{item.per_id}</td>
+                <td>{item.name}</td>
                 <td>
                   <div
                     style={{
@@ -556,7 +635,7 @@ const Filter = () => {
                     .replace(/[T]/g, ' ')
                     .replace(/"/g, '')}
                 </td>
-                <td>{item.per_id}</td>
+                <td>{item.name}</td>
               </tr>
             );
           })}

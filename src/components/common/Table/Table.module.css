@@ -1,8 +1,8 @@
 .table {
   width: 100%;
   margin-bottom: 3rem;
-  color: #caf7ff;
-  border: 2px solid #6b83a5;
+  color: #000000;
+  border: 2px solid #000000;
   border-collapse: collapse;
   box-shadow: 0px -9px 5px -5px rgba(34, 60, 80, 0.6);
   -webkit-box-shadow: 0px -9px 5px -5px rgba(34, 60, 80, 0.6);
@@ -12,12 +12,12 @@
 
 th {
   padding: 0.5rem;
-  border: 1px solid #6b83a5;
+  border: 1px solid #000000;
 }
 
 td {
   max-width: 10rem;
-  border: 1px solid #6b83a5;
+  border: 1px solid #000000;
   padding: 0.4rem 0.3rem;
   text-align: center;
   position: relative;
