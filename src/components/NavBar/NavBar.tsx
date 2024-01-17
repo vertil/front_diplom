@@ -23,7 +23,7 @@ const NavBar = () => {
           <BurgerButton onClick={() => setOpenMenu(!openMenu)} />
 
           <CustomLink
-            text='@Personal Info'
+            text='Personal Info'
             to='/personal-info'
             openMenu={openMenu}
             onClick={() => {}}
@@ -58,7 +58,7 @@ const NavBar = () => {
           />
 
           <CustomLink
-            text='@Unidentified faces'
+            text='Unidentified faces'
             to='/unidentified-faces'
             openMenu={openMenu}
             onClick={() => {}}

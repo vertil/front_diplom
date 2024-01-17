@@ -11,6 +11,8 @@ const UnidentifiedFaces = () => {
 
   const [unidentifiedFaces, setUnidentifiedFaces] = useState<any>([]);
   const [unidentifiedFacesId, setUnidentifiedFacesId] = useState<string>('');
+  const [unidentifiedFacesPhoto, setUnidentifiedFacesPhoto] =
+    useState<string>('');
 
   const GetUnidentifiedFaces = async () => {
     try {
@@ -25,17 +27,16 @@ const UnidentifiedFaces = () => {
     }
   };
 
-  // const GetUnidentifiedFacesPhoto = async (id: string) => {
-  //   try {
-  //     const responsePhoto = await $api.get<any>(
-  //       `/un_def_faces/get_by_timestamp?timestamp=${unidentifiedFacesId}`
-  //     );
-
-  //     console.log(responsePhoto);
-  //   } catch (error) {
-  //     console.log('camerasStatus', error);
-  //   }
-  // };
+  const GetUnidentifiedFacesPhoto = async (time: string) => {
+    try {
+      const response = await $api.get<any>(
+        `/un_def_faces/get_by_timestamp?timestamp=${time}`
+      );
+      setUnidentifiedFacesPhoto(response.data);
+    } catch (error) {
+      console.log('camerasStatus', error);
+    }
+  };
 
   return (
     <>
@@ -55,17 +56,31 @@ const UnidentifiedFaces = () => {
         <Button text='Get' onClick={GetUnidentifiedFaces} />
       </div>
 
-      <Table theadName={tableColumn}>
-        {unidentifiedFaces.map((item: any, index: number) => {
-          return (
-            <tr key={index}>
-              <td>{item.time}</td>
-              <td>{item.cam_id}</td>
-              <td>{item.cam_id}</td>
-            </tr>
-          );
-        })}
-      </Table>
+      {unidentifiedFaces.length > 0 && (
+        <Table theadName={tableColumn}>
+          {unidentifiedFaces.map((item: any, index: number) => {
+            return (
+              <tr key={index}>
+                <td>{item.time}</td>
+                <td>{item.cam_id}</td>
+                <td>
+                  <Button
+                    text='Get photo'
+                    onClick={(e: any) => GetUnidentifiedFacesPhoto(item.time)}
+                  />
+                </td>
+              </tr>
+            );
+          })}
+        </Table>
+      )}
+
+      {unidentifiedFacesPhoto && (
+        <img
+          src={`data:image/png;base64,${unidentifiedFacesPhoto}`}
+          alt='img'
+        />
+      )}
     </>
   );
 };
