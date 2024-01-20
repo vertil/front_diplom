@@ -7,8 +7,7 @@ import Button from '../../common/Button/Button';
 import Table from '../../common/Table/Table';
 
 const UnidentifiedFaces = () => {
-  const tableColumn: string[] = ['timedate', 'cam id', 'file'];
-
+  const tableColumn: string[] = ['Дата и время', 'Id камеры', 'Фото'];
   const [unidentifiedFaces, setUnidentifiedFaces] = useState<any>([]);
   const [unidentifiedFacesId, setUnidentifiedFacesId] = useState<string>('');
   const [unidentifiedFacesPhoto, setUnidentifiedFacesPhoto] =
@@ -44,16 +43,16 @@ const UnidentifiedFaces = () => {
 
       <div className={styles.search}>
         <Input
-          label='Enter id'
+          label='Введите количество'
           type='number'
-          placeholder='Show all'
+          placeholder='Введите количество...'
           value={unidentifiedFacesId}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setUnidentifiedFacesId(e.target.value)
           }
         />
 
-        <Button text='Get' onClick={GetUnidentifiedFaces} />
+        <Button text='Получить' onClick={GetUnidentifiedFaces} />
       </div>
 
       {unidentifiedFaces.length > 0 && (
@@ -65,7 +64,7 @@ const UnidentifiedFaces = () => {
                 <td>{item.cam_id}</td>
                 <td>
                   <Button
-                    text='Get photo'
+                    text='Показать фото'
                     onClick={(e: any) => GetUnidentifiedFacesPhoto(item.time)}
                   />
                 </td>

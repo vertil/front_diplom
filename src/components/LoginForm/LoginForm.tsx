@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useState, useCallback, ChangeEvent, MouseEvent } from 'react';
 import $api from '../../http';
 import { AuthResponse } from '../../models/response/AuthResponse';
 import { validationService } from '../../services/validation';
@@ -13,28 +13,34 @@ interface ILoginForm {
 }
 
 const LoginForm = ({ setIsLogin, setModalWindowLogin }: ILoginForm) => {
-  const [username, setUsername] = useState<string>('admin');
-  const [password, setPassword] = useState<string>('97Lp82Eq');
+  const [username, setUsername] = useState<string>('admin'); // ''
+  const [password, setPassword] = useState<string>('97Lp82Eq'); // ''
   const [errors, setErrors] = useState({
     username: '',
     password: '',
   });
 
-  const onChangeUsername = useCallback((event: any) => {
-    const value = event.target.value;
-    setUsername(value);
-    const error = validationService.validateName(value);
-    setErrors((errors) => ({ ...errors, username: error }));
-  }, []);
+  const onChangeUsername = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setUsername(value);
+      const error = validationService.validateName(value);
+      setErrors((errors) => ({ ...errors, username: error }));
+    },
+    []
+  );
 
-  const onChangePassword = useCallback((event: any) => {
-    const value = event.target.value;
-    setPassword(value);
-    const error = validationService.validatePassword(value);
-    setErrors((errors) => ({ ...errors, password: error }));
-  }, []);
+  const onChangePassword = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const value = event.target.value;
+      setPassword(value);
+      const error = validationService.validatePassword(value);
+      setErrors((errors) => ({ ...errors, password: error }));
+    },
+    []
+  );
 
-  const login = async (event: any) => {
+  const login = async (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
     try {
       const errors = {

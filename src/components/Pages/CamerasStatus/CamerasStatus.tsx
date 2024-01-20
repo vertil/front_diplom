@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import $api from '../../../http';
 import {
-  CamerasStatusResponse,
   Cameras,
+  CamerasStatusResponse,
 } from '../../../models/response/CamerasStatusResponse';
 import styles from './CamerasStatus.module.css';
 import TitleOfPages from '../../common/TitleOfPages/TitleOfPages';
@@ -12,13 +12,13 @@ import Table from '../../common/Table/Table';
 
 const CamerasStatus = () => {
   const tableColumn: string[] = [
-    'id cam',
-    'cam model',
-    'ip addr',
-    'cab id',
-    'in pos',
-    'pass num',
-    'status',
+    'Id камеры',
+    'Модель камеры',
+    'Ip адрес',
+    'Id кабинета',
+    'В кабинет',
+    'Номер прохода',
+    'Статус',
   ];
   const [cameras, setCameras] = useState<Cameras[]>([]);
   const [camerasId, setCamerasId] = useState<string>('');
@@ -37,15 +37,17 @@ const CamerasStatus = () => {
 
   const GetCamerasStatus = async () => {
     try {
-      const response = await $api.get<any[]>(
+      const response = await $api.get<Cameras[]>(
         `/cameras/get_one?cam_id=${camerasId}`
       );
 
-      if (response.data[0] === null) {
+      if (response.data === null) {
         setCameras([]);
       } else {
         setCameras(response.data);
       }
+
+      setCamerasId('');
     } catch (error) {
       console.log('GetCamerasStatus', error);
     }
@@ -55,57 +57,59 @@ const CamerasStatus = () => {
     <>
       <TitleOfPages title='Cameras Status' />
 
-      <Button text='Get all' onClick={GetCamerasAll} />
+      <Button text='Получить все' onClick={GetCamerasAll} />
 
       <div className={styles.search}>
         <Input
-          label='Enter cameras id'
+          label='Введите id камеры'
           type='number'
-          placeholder='Enter cameras id'
+          placeholder='Введите id камеры...'
           value={camerasId}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setCamerasId(e.target.value)
           }
         />
 
-        <Button text='Get cameras' onClick={GetCamerasStatus} />
+        <Button text='Получить камеру' onClick={GetCamerasStatus} />
       </div>
 
-      <Table theadName={tableColumn}>
-        {cameras.map((item: Cameras, index: number) => {
-          return (
-            <tr key={index}>
-              <td>{item.id}</td>
-              <td>{item.cam_model}</td>
-              <td>{item.addr}</td>
-              <td>{item.cab_id}</td>
-              <td>
-                <div
-                  style={{
-                    backgroundColor: item.in_pos ? 'green' : 'red',
-                    width: '1rem',
-                    height: '1rem',
-                    margin: '0 auto',
-                    borderRadius: '50%',
-                  }}
-                ></div>
-              </td>
-              <td>{item.pass_num}</td>
-              <td>
-                <div
-                  style={{
-                    backgroundColor: item.status ? 'green' : 'red',
-                    width: '1rem',
-                    height: '1rem',
-                    margin: '0 auto',
-                    borderRadius: '50%',
-                  }}
-                ></div>
-              </td>
-            </tr>
-          );
-        })}
-      </Table>
+      {cameras.length > 0 && (
+        <Table theadName={tableColumn}>
+          {cameras.map((item: Cameras, index: number) => {
+            return (
+              <tr key={index}>
+                <td>{item.id}</td>
+                <td>{item.cam_model}</td>
+                <td>{item.addr}</td>
+                <td>{item.cab_id}</td>
+                <td>
+                  <div
+                    style={{
+                      backgroundColor: item.in_pos ? 'green' : 'red',
+                      width: '1rem',
+                      height: '1rem',
+                      margin: '0 auto',
+                      borderRadius: '50%',
+                    }}
+                  ></div>
+                </td>
+                <td>{item.pass_num}</td>
+                <td>
+                  <div
+                    style={{
+                      backgroundColor: item.status ? 'green' : 'red',
+                      width: '1rem',
+                      height: '1rem',
+                      margin: '0 auto',
+                      borderRadius: '50%',
+                    }}
+                  ></div>
+                </td>
+              </tr>
+            );
+          })}
+        </Table>
+      )}
     </>
   );
 };

@@ -9,15 +9,7 @@ import Button from '../common/Button/Button';
 import Table from '../common/Table/Table';
 
 const Departments = () => {
-  const tableColumn: string[] = [
-    'id cab',
-    'name',
-    // 'floor',
-    // 'dep id',
-    // 'in pos',
-    // 'pass num',
-    // 'status',
-  ];
+  const tableColumn: string[] = ['Id кабинета', 'ФИО'];
   const [departments, setDepartments] = useState<Department[]>([]);
 
   const GetDepartments = async () => {
@@ -28,26 +20,28 @@ const Departments = () => {
       const resp = response.data[0];
       setDepartments(resp);
     } catch (error) {
-      console.log('Departments', error);
+      console.log('GetDepartments', error);
     }
   };
 
   return (
     <>
       <TitleOfPages title='Departments' />
-      
-      <Button text='Get all' onClick={GetDepartments} />
 
-      <Table theadName={tableColumn}>
-        {departments.map((item: Department, index: number) => {
-          return (
-            <tr key={index}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-            </tr>
-          );
-        })}
-      </Table>
+      <Button text='Получить всё' onClick={GetDepartments} />
+
+      {departments.length > 0 && (
+        <Table theadName={tableColumn}>
+          {departments.map((item: Department, index: number) => {
+            return (
+              <tr key={index}>
+                <td>{item.id}</td>
+                <td>{item.name}</td>
+              </tr>
+            );
+          })}
+        </Table>
+      )}
     </>
   );
 };

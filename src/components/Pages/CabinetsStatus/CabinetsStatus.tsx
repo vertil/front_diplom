@@ -11,19 +11,10 @@ import Button from '../../common/Button/Button';
 import Table from '../../common/Table/Table';
 
 const CabinetsStatus = () => {
-  const tableColumn: string[] = [
-    'id cab',
-    'name',
-    'floor',
-    'dep id',
-    // 'in pos',
-    // 'pass num',
-    // 'status',
-  ];
+  const tableColumn: string[] = ['Id кабинета', 'ФИО', 'floor', 'dep id'];
   const [cabinets, setCabinets] = useState<CabinetsStatusResponse[]>([]);
   const [cabinetsId, setCabinetsId] = useState<string>('');
-  const [cabinetPers, setCabinetPers] =
-    useState<CabinetsStatusPersonIdsResponse>();
+  const [cabinetPers, setCabinetPers] = useState<any>([]);
   const [cabinetPersId, setCabinetPersId] = useState<string>('');
 
   const GetCabinetsAll = async () => {
@@ -48,6 +39,7 @@ const CabinetsStatus = () => {
       } else {
         setCabinets(response.data);
       }
+      setCabinetsId('');
     } catch (error) {
       console.log('GetCabinetsStatus', error);
     }
@@ -55,12 +47,21 @@ const CabinetsStatus = () => {
 
   const GetCabinetPersId = async () => {
     try {
-      const response = await $api.get<CabinetsStatusPersonIdsResponse>(
+      const response = await $api.get<CabinetsStatusPersonIdsResponse[]>(
         `/cabinets/get_cabinet_per_ids?cabinet_id=${cabinetPersId}`
       );
 
-      setCabinetPers(response.data);
+      if (response.data === null) {
+        setCabinetPers([]);
+      } else {
+        setCabinetPers(response.data);
+        setCabinetPersId('');
+      }
+
+      setCabinetPersId('');
     } catch (error) {
+      setCabinetPers([]);
+      setCabinetPersId('');
       console.log('GetCabinetPersId', error);
     }
   };
@@ -69,52 +70,56 @@ const CabinetsStatus = () => {
     <>
       <TitleOfPages title='Cabinets Status' />
 
-      <Button text='Get all' onClick={GetCabinetsAll} />
+      <Button text='Получить всё' onClick={GetCabinetsAll} />
 
       <div className={styles.search}>
         <Input
-          label='Enter cabinet id'
+          label='Введите id кибинета'
           type='number'
-          placeholder='Enter cabinet id'
+          placeholder='Введите id кибинета...'
           value={cabinetsId}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setCabinetsId(e.target.value)
           }
         />
 
-        <Button text='Get Cabinets Status' onClick={GetCabinetsStatus} />
+        <Button text='Получить кабинет' onClick={GetCabinetsStatus} />
       </div>
 
-      <Table theadName={tableColumn}>
-        {cabinets.map((item: CabinetsStatusResponse, index: number) => {
-          return (
-            <tr key={index}>
-              <td>{item.id}</td>
-              <td>{item.name}</td>
-              <td>{item.floor}</td>
-              <td>{item.dep_id}</td>
-            </tr>
-          );
-        })}
-      </Table>
+      {cabinets.length > 0 && (
+        <Table theadName={tableColumn}>
+          {cabinets.map((item: CabinetsStatusResponse, index: number) => {
+            return (
+              <tr key={index}>
+                <td>{item.id}</td>
+                <td>{item.name}</td>
+                <td>{item.floor}</td>
+                <td>{item.dep_id}</td>
+              </tr>
+            );
+          })}
+        </Table>
+      )}
 
       <div className={styles.search}>
         <Input
-          label='Enter personal id'
+          label='Введите id персонала'
           type='number'
-          placeholder='Show all personal id'
+          placeholder='Введите id персонала...'
           value={cabinetPersId}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setCabinetPersId(e.target.value)
           }
         />
 
-        <Button text='GetCabinetPersId' onClick={GetCabinetPersId} />
+        <Button text='Получить' onClick={GetCabinetPersId} />
       </div>
 
-      {cabinetPers?.pers_ids.map((item: number, index: number) => {
-        return <p key={index}>{item}</p>;
-      })}
+      <div className={styles.list}>
+        {cabinetPers?.pers_ids?.map((item: number, index: number) => {
+          return <p key={index}>{item};</p>;
+        })}
+      </div>
     </>
   );
 };

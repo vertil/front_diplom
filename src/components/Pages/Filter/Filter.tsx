@@ -14,7 +14,7 @@ const Filter = () => {
   ];
   const workerDayVisitsColumn3 = ['Тип времени', 'время'];
   const [workerDayVisits, setWorkerDayVisits] = useState<any>([]);
-  const [workerDayVisits2, setWorkerDayVisits2] = useState<any>([]);
+  const [workerDayVisitsList, setWorkerDayVisitsList] = useState<any>([]);
   const [workerDayVisitsDate, setWorkerDayVisitsDate] = useState('');
   const [workerDayVisitsNumber, setWorkerDayVisitsNumber] = useState('');
 
@@ -27,7 +27,7 @@ const Filter = () => {
   const cabVisitsColumn = ['Время', 'ФИО', 'Направление'];
   const cabVisitsColumn2 = ['ФИО', 'общее время'];
   const [cabVisits, setCabVisits] = useState<any>([]);
-  const [cabVisits2, setCabVisits2] = useState<any>([]);
+  const [cabVisitsList, setCabVisitsList] = useState<any>([]);
   const [cabVisitsDate, setCabVisitsDate] = useState('');
   const [cabVisitsNumber, setCabVisitsNumber] = useState('');
 
@@ -39,7 +39,7 @@ const Filter = () => {
 
   const passVisitsColumn = ['Время', 'ФИО', 'Направление'];
   const [passVisits, setPassVisits] = useState([]);
-  const [passVisits2, setPassVisits2] = useState([]);
+  const [passVisitsList, setPassVisitsList] = useState([]);
   const [passVisitsDate, setPassVisitsDate] = useState('');
   const [passVisitsNumber, setPassVisitsNumber] = useState('');
   const [passVisitsPass, setPassVisitsPass] = useState('');
@@ -52,22 +52,22 @@ const Filter = () => {
   const [passVisitsPosBool, setPassVisitsPosBool] = useState('');
 
   useEffect(() => {
-    const GetWorkerDayVisits2 = async () => {
+    const GetWorkerDayVisitsList = async () => {
       try {
         const response = await $api.get<any>(`/personal/get_pers_names`);
 
-        setWorkerDayVisits2(response.data);
+        setWorkerDayVisitsList(response.data);
       } catch (error) {
-        console.log('GetWorkerDayVisits', error);
+        console.log('GetWorkerDayVisitsList', error);
       }
     };
-    GetWorkerDayVisits2();
+    GetWorkerDayVisitsList();
 
     const GetCabsNames = async () => {
       try {
         const response = await $api.get<any>(`/cabinets/get_cabs_names`);
 
-        setCabVisits2(response.data);
+        setCabVisitsList(response.data);
       } catch (error) {
         console.log('GetCabsNames', error);
       }
@@ -78,7 +78,7 @@ const Filter = () => {
       try {
         const response = await $api.get<any>(`/cabinets/get_cabs_passages`);
 
-        setPassVisits2(response.data);
+        setPassVisitsList(response.data);
       } catch (error) {
         console.log('GetCabsPas', error);
       }
@@ -90,9 +90,7 @@ const Filter = () => {
     const hours = Math.floor((seconds % (24 * 60 * 60)) / (60 * 60));
     const minutes = Math.floor((seconds % (60 * 60)) / 60);
     const remainingSeconds = seconds % 60;
-
     const formattedTime = `${hours} ч ${minutes} м ${remainingSeconds} с`;
-
     return formattedTime;
   };
 
@@ -111,6 +109,7 @@ const Filter = () => {
       );
 
       setWorkerDayVisits(response.data);
+      setWorkerDayVisitsNumber('');
     } catch (error) {
       console.log('GetWorkerDayVisits', error);
     }
@@ -133,6 +132,9 @@ const Filter = () => {
       );
 
       setWorkerDayVisitsPos(response.data);
+      setWorkerDayVisitsPosNumber('');
+      setWorkerDayVisitsPosDate('');
+      setWorkerDayVisitsPosBool('');
     } catch (error) {
       console.log('GetWorkerDayVisitsPos', error);
     }
@@ -153,7 +155,7 @@ const Filter = () => {
       );
 
       setCabVisits(response.data);
-      console.log(response);
+      setCabVisitsNumber('');
     } catch (error) {
       console.log('GetCabVisits', error);
     }
@@ -174,6 +176,8 @@ const Filter = () => {
       );
 
       setCabVisitsPos(response.data);
+      setCabVisitsPosNumber('');
+      setCabVisitsPosBool('');
     } catch (error) {
       console.log('GetCabVisitsPos', error);
     }
@@ -193,6 +197,8 @@ const Filter = () => {
       );
 
       setPassVisits(response.data);
+      setPassVisitsNumber('');
+      setPassVisitsPass('');
     } catch (error) {
       console.log('GetPassVisits', error);
     }
@@ -213,6 +219,9 @@ const Filter = () => {
       );
 
       setPassVisitsPos(response.data);
+      setPassVisitsPosNumber('');
+      setPassVisitsPosPass('');
+      setPassVisitsPosBool('');
     } catch (error) {
       console.log('GetPassVisitsPos', error);
     }
@@ -222,10 +231,9 @@ const Filter = () => {
     <>
       <TitleOfPages title='Filter' />
 
-      <p>Отчёты по работникам</p>
-      <br></br>
+      <h2>Отчёты по работникам</h2>
 
-      <pre>Отчёт по посещениям работником кабинетов</pre>
+      <h3>Отчёт по посещениям работником кабинетов</h3>
 
       <div className={styles.search}>
         <Input
@@ -239,13 +247,14 @@ const Filter = () => {
         />
 
         <select
+          className={styles.select}
           value={workerDayVisitsNumber}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setWorkerDayVisitsNumber(e.target.value)
           }
         >
           <option value=''>Выберите id персонала</option>
-          {Object.entries<any>(workerDayVisits2).map(([id, fullName]) => {
+          {Object.entries<any>(workerDayVisitsList).map(([id, fullName]) => {
             return (
               <option key={id} value={id}>
                 {fullName}
@@ -253,42 +262,13 @@ const Filter = () => {
             );
           })}
         </select>
-        {/* <Input
-          label='Enter person id'
-          type='number'
-          placeholder='Enter person id'
-          value={workerDayVisitsNumber}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setWorkerDayVisitsNumber(e.target.value)
-          }
-        /> */}
-        {/* <label>
-            Выберите работника
-            <br></br>
-            <input list="browsers" name="myBrowser"  size={50}/>  
-        </label>   
-        <datalist id="browsers">
-            <option value="Вертинский Кирилл Геннадьевич" />
-            <option value="Иванов Иван Иваныч" />
-            <option value="Петров Пётр Петрович" />            
-          
-        </datalist>
-        
-        <br></br> */}
 
         <Button text='Получить отчёт' onClick={GetWorkerDayVisits} />
       </div>
 
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-
-      <br></br>
-      <pre>
+      <h3>
         Отчёт по посещениям работником кабинетов в зависимости от направления
-      </pre>
+      </h3>
 
       <div className={styles.search}>
         <Input
@@ -301,37 +281,15 @@ const Filter = () => {
           }
         />
 
-        {/* <label>
-            Выберите работника
-            <br></br>
-            <input list="browsers" name="myBrowser"  size={50}/>  
-        </label>   
-        <datalist id="browsers">
-            <option value="Вертинский Кирилл Геннадьевич" />
-            <option value="Иванов Иван Иваныч" />
-            <option value="Петров Пётр Петрович" />            
-          
-        </datalist>       
-        <br></br> */}
-
-        {/* <Input
-          label='Enter person id'
-          type='number'
-          placeholder='Enter person id'
-          value={workerDayVisitsPosNumber}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setWorkerDayVisitsPosNumber(e.target.value)
-          }
-        /> */}
-
         <select
+          className={styles.select}
           value={workerDayVisitsPosNumber}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setWorkerDayVisitsPosNumber(e.target.value)
           }
         >
           <option value=''>Выберите id персонала</option>
-          {Object.entries<any>(workerDayVisits2).map(([id, fullName]) => {
+          {Object.entries<any>(workerDayVisitsList).map(([id, fullName]) => {
             return (
               <option key={id} value={id}>
                 {fullName}
@@ -341,6 +299,7 @@ const Filter = () => {
         </select>
 
         <select
+          className={styles.select}
           value={workerDayVisitsPosBool}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setWorkerDayVisitsPosBool(e.target.value)
@@ -351,15 +310,14 @@ const Filter = () => {
           <option value='false'>Из помещения</option>
         </select>
 
-        <br></br>
-
         <Button text='Получить отчёт' onClick={GetWorkerDayVisitsPos} />
       </div>
-      <br></br>
-      <hr></hr>
-      <p>Отчёты по кабинетам</p>
-      <br></br>
-      <pre>Отчёт по посещениям кабинета</pre>
+
+      <hr />
+
+      <h2>Отчёты по кабинетам</h2>
+
+      <h3>Отчёт по посещениям кабинета</h3>
 
       <div className={styles.search}>
         <Input
@@ -373,13 +331,14 @@ const Filter = () => {
         />
 
         <select
+          className={styles.select}
           value={cabVisitsNumber}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setCabVisitsNumber(e.target.value)
           }
         >
           <option value=''>Выберите каб</option>
-          {Object.entries<any>(cabVisits2).map(([id, fullName]) => {
+          {Object.entries<any>(cabVisitsList).map(([id, fullName]) => {
             return (
               <option key={id} value={id}>
                 {fullName}
@@ -391,11 +350,7 @@ const Filter = () => {
         <Button text='Получить отчёт' onClick={GetCabVisits} />
       </div>
 
-      <br></br>
-
-      <pre>
-        Отчёт по посещению кабинета в зависимости от направления движения
-      </pre>
+      <h3>Отчёт по посещению кабинета в зависимости от направления движения</h3>
 
       <div className={styles.search}>
         <Input
@@ -409,13 +364,14 @@ const Filter = () => {
         />
 
         <select
+          className={styles.select}
           value={cabVisitsPosNumber}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setCabVisitsPosNumber(e.target.value)
           }
         >
           <option value=''>Выберите каб</option>
-          {Object.entries<any>(cabVisits2).map(([id, fullName]) => {
+          {Object.entries<any>(cabVisitsList).map(([id, fullName]) => {
             return (
               <option key={id} value={id}>
                 {fullName}
@@ -425,6 +381,7 @@ const Filter = () => {
         </select>
 
         <select
+          className={styles.select}
           value={cabVisitsPosBool}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setCabVisitsPosBool(e.target.value)
@@ -434,15 +391,15 @@ const Filter = () => {
           <option value='true'>В помещение</option>
           <option value='false'>Из помещения</option>
         </select>
-        <br></br>
+
         <Button text='Получить отчёт' onClick={GetCabVisitsPos} />
       </div>
 
-      <br></br>
       <hr></hr>
-      <p>Отчёты по проходам</p>
-      <br></br>
-      <pre>Отчёт по прохождению через проход кабинета</pre>
+
+      <h2>Отчёты по проходам</h2>
+
+      <h3>Отчёт по прохождению через проход кабинета</h3>
 
       <div className={styles.search}>
         <Input
@@ -455,24 +412,15 @@ const Filter = () => {
           }
         />
 
-        {/* <Input
-          label='Введите номер кабинета'
-          type='number'
-          placeholder='Введите номер кабинета'
-          value={passVisitsNumber}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPassVisitsNumber(e.target.value)
-          }
-        /> */}
-
         <select
+          className={styles.select}
           value={passVisitsNumber}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setPassVisitsNumber(e.target.value)
           }
         >
           <option value=''>Выберите каб</option>
-          {Object.entries<any>(passVisits2).map(([id, fullName]) => {
+          {Object.entries<any>(passVisitsList).map(([id, fullName]) => {
             return (
               <option key={id} value={id}>
                 {id}
@@ -482,6 +430,7 @@ const Filter = () => {
         </select>
 
         <select
+          className={styles.select}
           value={passVisitsPass}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setPassVisitsPass(e.target.value)
@@ -489,7 +438,7 @@ const Filter = () => {
         >
           <option value=''>Выберите проход</option>
 
-          {Object.entries<Record<string, any>>(passVisits2).map(
+          {Object.entries<Record<string, any>>(passVisitsList).map(
             ([id, fullName]) => {
               if (id === passVisitsNumber) {
                 const arr = [];
@@ -510,10 +459,9 @@ const Filter = () => {
         <Button text='Получить отчёт' onClick={GetPassVisits} />
       </div>
 
-      <br></br>
-      <pre>
+      <h3>
         Отчёт по прохождению через проход кабинета в зависимости от направления
-      </pre>
+      </h3>
 
       <div className={styles.search}>
         <Input
@@ -525,14 +473,16 @@ const Filter = () => {
             setPassVisitsPosDate(e.target.value)
           }
         />
+
         <select
+          className={styles.select}
           value={passVisitsPosNumber}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setPassVisitsPosNumber(e.target.value)
           }
         >
           <option value=''>Выберите каб</option>
-          {Object.entries<any>(passVisits2).map(([id, fullName]) => {
+          {Object.entries<any>(passVisitsList).map(([id, fullName]) => {
             return (
               <option key={id} value={id}>
                 {id}
@@ -542,6 +492,7 @@ const Filter = () => {
         </select>
 
         <select
+          className={styles.select}
           value={passVisitsPosPass}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setPassVisitsPosPass(e.target.value)
@@ -549,7 +500,7 @@ const Filter = () => {
         >
           <option value=''>Выберите проход</option>
 
-          {Object.entries<Record<string, any>>(passVisits2).map(
+          {Object.entries<Record<string, any>>(passVisitsList).map(
             ([id, fullName]) => {
               if (id === passVisitsPosNumber) {
                 const arr = [];
@@ -566,25 +517,9 @@ const Filter = () => {
             }
           )}
         </select>
-        {/* <Input
-          label='Введите номер кабинета'
-          type='number'
-          placeholder='Введите номер кабинета'
-          value={passVisitsPosNumber}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPassVisitsPosNumber(e.target.value)
-          }
-        /> */}
-        {/* <Input
-          label='Введите номер прохода'
-          type='number'
-          placeholder='Введите номер прохода'
-          value={passVisitsPosPass}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPassVisitsPosPass(e.target.value)
-          }
-        /> */}
+
         <select
+          className={styles.select}
           value={passVisitsPosBool}
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             setPassVisitsPosBool(e.target.value)
@@ -597,10 +532,6 @@ const Filter = () => {
         <br></br>
         <Button text='Получить отчёт' onClick={GetPassVisitsPos} />
       </div>
-
-      <br></br>
-      <br></br>
-      <br></br>
 
       {workerDayVisits.full && (
         <>

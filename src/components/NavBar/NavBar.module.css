@@ -8,10 +8,9 @@
 }
 
 .navBar_container {
-  position: sticky;
-  top: 0rem;
+  position: fixed;
+  top: 3rem;
   padding: 1rem;
-  transform: translateY(3rem);
 }
 
 .navBar_links {

@@ -32,7 +32,7 @@ const Header = () => {
           <h1>Диплом</h1>
         </Link>
 
-        <Button text={isLogin ? 'Logout' : 'Login'} onClick={EnterIn} />
+        <Button text={isLogin ? 'Выйти' : 'Войти'} onClick={EnterIn} />
       </div>
 
       <ModalWindow

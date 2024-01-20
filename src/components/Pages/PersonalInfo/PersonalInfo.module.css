@@ -1,14 +1,28 @@
 .search {
   display: flex;
   align-items: flex-end;
-  margin-bottom: 1rem;
+  margin: 1rem 0 2rem;
 }
 
 .search > div {
   margin-right: 1rem;
 }
 
+.search > button {
+  margin-right: 1rem;
+}
+
+.list {
+  display: flex;
+  margin-bottom: 1rem;
+}
+
+.list > p {
+  margin-right: 0.5rem;
+}
+
 img {
+  margin: 0 1rem 1rem 0;
   width: 100px;
   height: 100px;
 }

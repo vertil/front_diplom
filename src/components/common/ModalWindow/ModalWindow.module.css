@@ -19,7 +19,7 @@
   align-items: center;
   width: 50vw;
   padding: 3rem;
-  background-color: rgba(202, 247, 255, 0.24);
+  background-color: rgb(44 71 108);
   border-radius: 12px;
   transform: scale(0.5);
   transition: 0.4s all;

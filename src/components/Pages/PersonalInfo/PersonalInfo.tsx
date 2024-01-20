@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import $api from '../../../http';
 import {
   PersonalInfoResponse,
@@ -11,7 +11,7 @@ import Button from '../../common/Button/Button';
 import TitleOfPages from '../../common/TitleOfPages/TitleOfPages';
 
 const PersonalInfo = () => {
-  const tableColumn: string[] = ['id pers', 'name', 'dep id'];
+  const tableColumn: string[] = ['Id pers', 'ФИО', 'dep id'];
 
   const [personalList, setPersonalList] = useState<any>([]);
   const [personId, setPersonId] = useState<string>('');
@@ -99,20 +99,20 @@ const PersonalInfo = () => {
     <>
       <TitleOfPages title='Personal info' />
 
-      <Button text='Get personal all' onClick={GetPersonalAll} />
+      <Button text='Весь персонал' onClick={GetPersonalAll} />
 
       <div className={styles.search}>
         <Input
-          label='Enter person id'
+          label='Введите id сотрудника'
           type='number'
-          placeholder='Enter person id...'
+          placeholder='Введите id сотрудника...'
           value={personId}
           onChange={(e: ChangeEvent<HTMLInputElement>) =>
             setPersonId(e.target.value)
           }
         />
 
-        <Button text='Get personal' onClick={GetPersonal} />
+        <Button text='Получить' onClick={GetPersonal} />
       </div>
 
       {personalList.length > 0 && (
@@ -133,25 +133,27 @@ const PersonalInfo = () => {
 
       <div className={styles.search}>
         <Input
-          label='Enter personal id'
+          label='Введите id сотрудника'
           type='number'
-          placeholder='Enter personal id...'
+          placeholder='Введите id сотрудника...'
           value={personIdPhoto}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setPersonIdPhoto(e.target.value)
           }
         />
 
-        <Button text='Get list photos' onClick={GetListPhotos} />
+        <Button text='Список фото сотрудника' onClick={GetListPhotos} />
 
         {personIdPhotoList?.image_id && (
-          <Button text='Get photos all' onClick={GetPhotoAll} />
+          <Button text='Показать фото сотрудника' onClick={GetPhotoAll} />
         )}
       </div>
 
-      {personIdPhotoList?.image_id?.map((item: any, index: number) => {
-        return <p key={index}>{item} </p>;
-      })}
+      <div className={styles.list}>
+        {personIdPhotoList?.image_id?.map((item: any, index: number) => {
+          return <p key={index}>{item};</p>;
+        })}
+      </div>
 
       {photoList.map((item: any, index: number) => {
         return (

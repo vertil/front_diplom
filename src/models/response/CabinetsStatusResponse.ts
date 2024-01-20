@@ -6,5 +6,5 @@ export interface CabinetsStatusResponse {
 }
 
 export interface CabinetsStatusPersonIdsResponse {
-  pers_ids: number[];
+  [key: string]: number[];
 }

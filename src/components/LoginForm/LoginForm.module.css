@@ -14,3 +14,7 @@
 .loginForm_input > div:first-child {
   margin-bottom: 1rem;
 }
+
+.loginForm_input > div > label {
+  color: #ffffff;
+}
