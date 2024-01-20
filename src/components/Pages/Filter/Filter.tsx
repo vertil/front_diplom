@@ -229,7 +229,7 @@ const Filter = () => {
 
   return (
     <>
-      <TitleOfPages title='Filter' />
+      <TitleOfPages title='Отчёты' />
 
       <h2>Отчёты по работникам</h2>
 

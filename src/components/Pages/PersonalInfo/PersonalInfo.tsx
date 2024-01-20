@@ -57,6 +57,8 @@ const PersonalInfo = () => {
       );
 
       setPersonIdPhotoList(response.data);
+      setPersonPhoto('');
+      setPhotoList([]);
     } catch (error) {
       console.log('GetListPhotos', error);
     }
@@ -68,16 +70,15 @@ const PersonalInfo = () => {
 
       await Promise.all(
         personIdPhotoList?.image_id?.map(async (item: any, index: number) => {
-          console.log(item);
-
           const response = await $api.get<any>(
             `/personal/get_single_faces?face_id=${item}`
           );
-          console.log(response);
-          newPhotoList.push(response.data);
+          newPhotoList.push({ img: response.data, id: item });
         })
       );
+
       setPhotoList(newPhotoList);
+      setPersonPhoto('');
     } catch (error) {
       console.log('GetPhotoAll', error);
     }
@@ -90,6 +91,8 @@ const PersonalInfo = () => {
       );
 
       setPersonPhoto(response.data);
+      setPhotoList([]);
+      setPersonIdPhotoList([]);
     } catch (error) {
       console.log('GetPhoto', error);
     }
@@ -97,7 +100,7 @@ const PersonalInfo = () => {
 
   return (
     <>
-      <TitleOfPages title='Personal info' />
+      <TitleOfPages title='Работники' />
 
       <Button text='Весь персонал' onClick={GetPersonalAll} />
 
@@ -131,52 +134,68 @@ const PersonalInfo = () => {
         </Table>
       )}
 
-      <div className={styles.search}>
-        <Input
-          label='Введите id сотрудника'
-          type='number'
-          placeholder='Введите id сотрудника...'
-          value={personIdPhoto}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPersonIdPhoto(e.target.value)
-          }
-        />
+      <div className={styles.searchPhoto}>
+        <div className={styles.search}>
+          <Input
+            label='Введите id сотрудника'
+            type='number'
+            placeholder='Введите id сотрудника...'
+            value={personIdPhoto}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPersonIdPhoto(e.target.value)
+            }
+          />
+          <Button text='Список фото сотрудника' onClick={GetListPhotos} />
 
-        <Button text='Список фото сотрудника' onClick={GetListPhotos} />
+          {personIdPhotoList?.image_id && (
+            <Button text='Показать фото сотрудника' onClick={GetPhotoAll} />
+          )}
+        </div>
 
-        {personIdPhotoList?.image_id && (
-          <Button text='Показать фото сотрудника' onClick={GetPhotoAll} />
-        )}
+        <div className={styles.search}>
+          <Input
+            label='Enter photo id'
+            type='number'
+            placeholder='Show all photos or enter photo id...'
+            value={photoId}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+              setPhotoId(e.target.value)
+            }
+          />
+
+          <Button text='Get photo' onClick={GetPhoto} />
+        </div>
       </div>
 
-      <div className={styles.list}>
-        {personIdPhotoList?.image_id?.map((item: any, index: number) => {
-          return <p key={index}>{item};</p>;
-        })}
-      </div>
+      {personIdPhotoList?.image_id && (
+        <div className={styles.list}>
+          {personIdPhotoList?.image_id?.map((item: any, index: number) => {
+            return <p key={index}>{item};</p>;
+          })}
+        </div>
+      )}
 
-      {photoList.map((item: any, index: number) => {
-        return (
-          <img key={index} src={`data:image/png;base64,${item}`} alt='img' />
-        );
-      })}
-
-      <div className={styles.search}>
-        <Input
-          label='Enter photo id'
-          type='number'
-          placeholder='Show all photos or enter photo id...'
-          value={photoId}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setPhotoId(e.target.value)
-          }
-        />
-
-        <Button text='Get photo' onClick={GetPhoto} />
-      </div>
+      {photoList.length > 0 && (
+        <div className={styles.images}>
+          {photoList.map((item: any, index: number) => {
+            return (
+              <div key={index}>
+                <img src={`data:image/png;base64,${item.img}`} alt='img' />
+                <p>{item.id}</p>
+              </div>
+            );
+          })}
+        </div>
+      )}
 
       {personPhoto && (
-        <img src={`data:image/png;base64,${personPhoto}`} alt='img' />
+        <div className={styles.images}>
+          {personPhoto && (
+            <div>
+              <img src={`data:image/png;base64,${personPhoto}`} alt='img' />
+            </div>
+          )}
+        </div>
       )}
     </>
   );

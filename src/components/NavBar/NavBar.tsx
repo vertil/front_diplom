@@ -23,49 +23,49 @@ const NavBar = () => {
           <BurgerButton onClick={() => setOpenMenu(!openMenu)} />
 
           <CustomLink
-            text='Personal Info'
+            text='Работники'
             to='/personal-info'
             openMenu={openMenu}
             onClick={() => {}}
           />
 
           <CustomLink
-            text='In-Out status'
+            text='Посещения'
             to='/in-out-status'
             openMenu={openMenu}
             onClick={() => {}}
           />
 
           <CustomLink
-            text='Cabinets status'
+            text='Помещения'
             to='/cabinets-status'
             openMenu={openMenu}
             onClick={() => {}}
           />
 
           <CustomLink
-            text='Cameras status'
+            text='Камеры'
             to='/camera-status'
             openMenu={openMenu}
             onClick={() => {}}
           />
 
           <CustomLink
-            text='Departments'
+            text='Отделы'
             to='/departments'
             openMenu={openMenu}
             onClick={() => {}}
           />
 
           <CustomLink
-            text='Unidentified faces'
+            text='Неопознанные лица'
             to='/unidentified-faces'
             openMenu={openMenu}
             onClick={() => {}}
           />
 
           <CustomLink
-            text='Filter'
+            text='Отчёты'
             to='/filter'
             openMenu={openMenu}
             onClick={() => {}}

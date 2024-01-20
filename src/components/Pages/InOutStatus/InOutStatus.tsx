@@ -33,7 +33,7 @@ const InOutStatus = () => {
 
   return (
     <>
-      <TitleOfPages title='In-out Status' />
+      <TitleOfPages title='Посещения' />
 
       <div className={styles.search}>
         <Input

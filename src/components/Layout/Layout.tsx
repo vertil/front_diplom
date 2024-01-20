@@ -4,7 +4,6 @@ import styles from './Layout.module.css';
 import Header from '../Header/Header';
 import NavBar from '../NavBar/NavBar';
 import Main from '../Main/Main';
-import Footer from '../Footer/Footer';
 
 const Layout = () => {
   return (
@@ -16,7 +15,6 @@ const Layout = () => {
           <Outlet />
         </Main>
       </div>
-      <Footer />
     </>
   );
 };

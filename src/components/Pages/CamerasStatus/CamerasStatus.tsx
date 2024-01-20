@@ -55,7 +55,7 @@ const CamerasStatus = () => {
 
   return (
     <>
-      <TitleOfPages title='Cameras Status' />
+      <TitleOfPages title='Камеры' />
 
       <Button text='Получить все' onClick={GetCamerasAll} />
 

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import $api from '../../http';
 import styles from './Header.module.css';
 import Button from '../common/Button/Button';
@@ -28,10 +27,6 @@ const Header = () => {
   return (
     <div className={styles.header}>
       <div className={styles.header_container}>
-        <Link className={styles.logo} to='/'>
-          <h1>Диплом</h1>
-        </Link>
-
         <Button text={isLogin ? 'Выйти' : 'Войти'} onClick={EnterIn} />
       </div>
 

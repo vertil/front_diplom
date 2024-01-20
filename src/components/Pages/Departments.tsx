@@ -26,7 +26,7 @@ const Departments = () => {
 
   return (
     <>
-      <TitleOfPages title='Departments' />
+      <TitleOfPages title='Отделы' />
 
       <Button text='Получить всё' onClick={GetDepartments} />
 

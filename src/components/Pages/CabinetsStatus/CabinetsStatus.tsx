@@ -68,7 +68,7 @@ const CabinetsStatus = () => {
 
   return (
     <>
-      <TitleOfPages title='Cabinets Status' />
+      <TitleOfPages title='Помещения' />
 
       <Button text='Получить всё' onClick={GetCabinetsAll} />
 

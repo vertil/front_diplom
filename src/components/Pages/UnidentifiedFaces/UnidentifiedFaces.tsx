@@ -5,6 +5,7 @@ import TitleOfPages from '../../common/TitleOfPages/TitleOfPages';
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
 import Table from '../../common/Table/Table';
+import ModalWindow from '../../common/ModalWindow/ModalWindow';
 
 const UnidentifiedFaces = () => {
   const tableColumn: string[] = ['Дата и время', 'Id камеры', 'Фото'];
@@ -12,6 +13,8 @@ const UnidentifiedFaces = () => {
   const [unidentifiedFacesId, setUnidentifiedFacesId] = useState<string>('');
   const [unidentifiedFacesPhoto, setUnidentifiedFacesPhoto] =
     useState<string>('');
+
+  const [modalWindowPhoto, setModalWindowPhoto] = useState<boolean>(false);
 
   const GetUnidentifiedFaces = async () => {
     try {
@@ -32,6 +35,7 @@ const UnidentifiedFaces = () => {
         `/un_def_faces/get_by_timestamp?timestamp=${time}`
       );
       setUnidentifiedFacesPhoto(response.data);
+      setModalWindowPhoto(true);
     } catch (error) {
       console.log('camerasStatus', error);
     }
@@ -39,7 +43,7 @@ const UnidentifiedFaces = () => {
 
   return (
     <>
-      <TitleOfPages title='Unidentified faces' />
+      <TitleOfPages title='Неопознанные лица' />
 
       <div className={styles.search}>
         <Input
@@ -74,12 +78,19 @@ const UnidentifiedFaces = () => {
         </Table>
       )}
 
-      {unidentifiedFacesPhoto && (
-        <img
-          src={`data:image/png;base64,${unidentifiedFacesPhoto}`}
-          alt='img'
-        />
-      )}
+      <ModalWindow
+        active={modalWindowPhoto}
+        setActive={() => setModalWindowPhoto(!modalWindowPhoto)}
+      >
+        <div className={styles.images}>
+          <div>
+            <img
+              src={`data:image/png;base64,${unidentifiedFacesPhoto}`}
+              alt='img'
+            />
+          </div>
+        </div>
+      </ModalWindow>
     </>
   );
 };

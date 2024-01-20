@@ -7,3 +7,20 @@
 .search > div {
   margin-right: 1rem;
 }
+
+.images {
+  display: flex;
+}
+
+.images > div {
+  margin: 0 1rem 1rem 0;
+
+  position: relative;
+}
+
+.images > div > img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
